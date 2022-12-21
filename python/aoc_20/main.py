@@ -90,7 +90,7 @@ class RRLinkedList:
 
 
 if __name__ == '__main__':
-    with open("input.txt", "r") as f:
+    with open("test_input.txt", "r") as f:
         numbers = f.readlines()
     numbers = [int(num.strip("\n")) for num in numbers]
 
@@ -100,9 +100,11 @@ if __name__ == '__main__':
 
     for num in numbers:
         linked_list.move_number(num)
+        # print(linked_list)
 
     # print(linked_list)
     vals = []
     for pos in [1000, 2000, 3000]:
         vals.append(linked_list.number_at(0, pos=pos))
+    print(vals)
     print(sum(vals))
