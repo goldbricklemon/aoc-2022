@@ -6,21 +6,21 @@ if __name__ == '__main__':
 
     print("#### Star one and two ####")
     lines = [l.strip("\n") for l in lines]
-    best_three = [0, 0, 0]
+    top_elfs = [0, 0, 0]
     calories = 0
 
-    def insert_calories(new_calories, best_three):
-        best_three = sorted(best_three)
-        if new_calories > best_three[0]:
-            best_three[0] = new_calories
-        return best_three
+    def insert_calories(new_calories, top_elfs):
+        top_elfs = sorted(top_elfs)
+        if new_calories > top_elfs[0]:
+            top_elfs[0] = new_calories
+        return top_elfs
 
     for line in lines:
         if len(line) > 0:
             calories += int(line)
         else:
-            best_three = insert_calories(calories, best_three)
+            best_three = insert_calories(calories, top_elfs)
             calories = 0
-    best_three = insert_calories(calories, best_three)
-    print(f"Best elf: {max(best_three)}")
-    print(f"Best three elfs: {best_three}, with sum: {sum(best_three)}")
+    best_three = insert_calories(calories, top_elfs)
+    print(f"Best elf: {max(top_elfs)}")
+    print(f"Best three elfs: {top_elfs}, with sum: {sum(top_elfs)}")
