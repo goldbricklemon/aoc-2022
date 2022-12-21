@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 
+def insert_calories(calories, top_elfs):
+    top_elfs = sorted(top_elfs)
+    if calories > top_elfs[0]:
+        top_elfs[0] = calories
+    return top_elfs
+
+
 if __name__ == '__main__':
     with open("input.txt", "r") as f:
         lines = f.readlines()
@@ -8,12 +15,6 @@ if __name__ == '__main__':
     lines = [l.strip("\n") for l in lines]
     top_elfs = [0, 0, 0]
     calories = 0
-
-    def insert_calories(new_calories, top_elfs):
-        top_elfs = sorted(top_elfs)
-        if new_calories > top_elfs[0]:
-            top_elfs[0] = new_calories
-        return top_elfs
 
     for line in lines:
         if len(line) > 0:
