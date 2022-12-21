@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on 21 Dec 2022, 09:55
-
-@author: einfalmo
-"""
 import copy
-
 
 class RRItem:
 
@@ -90,7 +84,7 @@ class RRLinkedList:
 
 
 if __name__ == '__main__':
-    with open("test_input.txt", "r") as f:
+    with open("input.txt", "r") as f:
         numbers = f.readlines()
     numbers = [int(num.strip("\n")) for num in numbers]
 
