@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 OPS = ["+", "-", "/", "*"]
-UNK = "UKNOWN"
+UNK = "UNKNOWN"
 
 
 def parse_line(line):

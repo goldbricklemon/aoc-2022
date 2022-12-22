@@ -86,7 +86,7 @@ class RRLinkedList:
 if __name__ == '__main__':
     with open("input.txt", "r") as f:
         numbers = f.readlines()
-    numbers = [int(num.strip("\n")) for num in numbers]
+    numbers = [int(num.strip("\n").strip("\r")) for num in numbers]
 
     linked_list = RRLinkedList(copy.copy(numbers))
     for i, item in enumerate(linked_list.items):
