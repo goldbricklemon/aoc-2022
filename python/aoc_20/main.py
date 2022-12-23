@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import copy
+
 
 class RRItem:
 
@@ -14,10 +14,10 @@ class RRItem:
 
 class RRLinkedList:
 
-    def __init__(self, numbers):
-        self.items = [RRItem(num) for num in numbers]
+    def __init__(self, number_items):
+        self.items = number_items
         self.n = len(self.items)
-        self.item_dict = {item.number: item for item in self.items}
+        # self.item_dict = {item.number: item for item in self.items}
         for i in range(self.n):
             prev_i = (i - 1) % self.n
             next_i = (i + 1) % self.n
@@ -43,33 +43,32 @@ class RRLinkedList:
         self.link(prev_item, item)
         self.link(item, next_item)
 
-    def move_number(self, num):
-        item = self.item_dict[num]
-        steps = num
+    def move_number(self, num_item):
+        steps = num_item.number
         forward = steps >= 0
         if steps != 0:
             if forward:
                 effective_steps = steps % (self.n - 1)
                 if effective_steps != 0:
-                    insert_at_item = item
+                    insert_at_item = num_item
                     for k in range(effective_steps):
                         insert_at_item = insert_at_item.next_item
                         if k == 0:
-                            self.remove(item)
-                    self.insert(item, prev_item=insert_at_item, next_item=insert_at_item.next_item)
+                            self.remove(num_item)
+                    self.insert(num_item, prev_item=insert_at_item, next_item=insert_at_item.next_item)
             else:
                 effective_steps = (-steps) % (self.n - 1)
                 if effective_steps != 0:
-                    insert_at_item = item
+                    insert_at_item = num_item
                     for k in range(effective_steps):
                         insert_at_item = insert_at_item.prev_item
                         if k == 0:
-                            self.remove(item)
-                    self.insert(item, prev_item=insert_at_item.prev_item, next_item=insert_at_item)
+                            self.remove(num_item)
+                    self.insert(num_item, prev_item=insert_at_item.prev_item, next_item=insert_at_item)
 
-    def number_at(self, start_num, pos):
+    def number_at(self, start_item, pos):
         pos = pos % self.n
-        item = self.item_dict[start_num]
+        item = start_item
         for k in range(pos):
             item = item.next_item
         return item.number
@@ -87,18 +86,25 @@ if __name__ == '__main__':
     with open("input.txt", "r") as f:
         numbers = f.readlines()
     numbers = [int(num.strip("\n").strip("\r")) for num in numbers]
+    number_items = []
+    zero_item = None
+    for num in numbers:
+        item = RRItem(num)
+        number_items.append(item)
+        if num == 0:
+            zero_item = item
 
-    linked_list = RRLinkedList(copy.copy(numbers))
+    linked_list = RRLinkedList(number_items)
     for i, item in enumerate(linked_list.items):
         print(f"{i}: Prev: {item.prev_item.number}, Num: {item.number}, Next: {item.next_item.number}")
 
-    for num in numbers:
-        linked_list.move_number(num)
+    for num_item in number_items:
+        linked_list.move_number(num_item)
         # print(linked_list)
 
     # print(linked_list)
     vals = []
     for pos in [1000, 2000, 3000]:
-        vals.append(linked_list.number_at(0, pos=pos))
+        vals.append(linked_list.number_at(zero_item, pos=pos))
     print(vals)
     print(sum(vals))
