@@ -82,10 +82,7 @@ class RRLinkedList:
         return s
 
 
-if __name__ == '__main__':
-    with open("input.txt", "r") as f:
-        numbers = f.readlines()
-    numbers = [int(num.strip("\n").strip("\r")) for num in numbers]
+def star_one(numbers):
     number_items = []
     zero_item = None
     for num in numbers:
@@ -108,3 +105,43 @@ if __name__ == '__main__':
         vals.append(linked_list.number_at(zero_item, pos=pos))
     print(vals)
     print(sum(vals))
+
+
+def star_two(numbers, decryption_key=811589153, num_mixes=10):
+    numbers = [num * decryption_key for num in numbers]
+    number_items = []
+    zero_item = None
+    for num in numbers:
+        item = RRItem(num)
+        number_items.append(item)
+        if num == 0:
+            zero_item = item
+
+    linked_list = RRLinkedList(number_items)
+    for i, item in enumerate(linked_list.items):
+        print(f"{i}: Prev: {item.prev_item.number}, Num: {item.number}, Next: {item.next_item.number}")
+
+    for _ in range(num_mixes):
+        for num_item in number_items:
+            linked_list.move_number(num_item)
+            # print(linked_list)
+
+    # print(linked_list)
+    vals = []
+    for pos in [1000, 2000, 3000]:
+        vals.append(linked_list.number_at(zero_item, pos=pos))
+    print(vals)
+    print(sum(vals))
+
+
+if __name__ == '__main__':
+    with open("input.txt", "r") as f:
+        numbers = f.readlines()
+    numbers = [int(num.strip("\n").strip("\r")) for num in numbers]
+
+    print("#### Star one ####")
+    star_one(numbers)
+
+    print("#### Star two ####")
+    star_two(numbers)
+
