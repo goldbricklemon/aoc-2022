@@ -7,6 +7,7 @@ def read_input(lines):
     tree_rows = list(map(lambda l: np.array([int(c) for c in l]), lines))
     return np.stack(tree_rows, axis=0)
 
+
 def visible_tree_map_and_scenic_scores(trees):
     # Let's be efficient and cache the ten tree height occupancy maps
     occupancy_maps = [trees >= i for i in range(10)]
