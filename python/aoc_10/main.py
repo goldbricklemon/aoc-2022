@@ -78,8 +78,6 @@ class SpriteCRT:
         self.draw_buffer = ""
 
     def draw_pixel(self):
-
-        # Do drawing
         sprite_pos = self.cpu_registers["x"]
         pix = '.'
         if self.col in range(sprite_pos - 1, sprite_pos + 2):
