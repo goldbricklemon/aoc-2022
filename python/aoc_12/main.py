@@ -11,12 +11,12 @@ def parse_height_map(lines):
             c = lines[row][col]
             if c == "S":
                 src = (row, col)
-                value = ord("a") - 97
+                value = 0
             elif c == "E":
                 dst = (row, col)
-                value = ord("z") - 97
+                value = 25
             else:
-                value = ord(c) - 97
+                value = ord(c) - ord("a")
             hmap[row, col] = value
     return hmap, src, dst
 
@@ -76,10 +76,7 @@ if __name__ == '__main__':
     print("#### Star one ####")
     print(f"Steps: {cost_map[src]}")
     print("#### Star two ####")
-    starting_locs = np.where(hmap == 0)
-    h, w  = hmap.shape
-    min_costs = h*w+1
-    for row, col in zip(*starting_locs):
-        costs = cost_map[row, col]
-        min_costs = min(costs, min_costs)
-    print(f"Steps: {min_costs}")
+    h, w = hmap.shape
+    max_costs = h * w + 1
+    start_loc_costs = np.where(hmap == 0, cost_map, max_costs)
+    print(f"Steps: {np.min(start_loc_costs)}")
