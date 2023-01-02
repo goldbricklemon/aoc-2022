@@ -48,7 +48,7 @@ class Board:
 
 
 if __name__ == '__main__':
-    with open("test_input.txt", "r") as f:
+    with open("input.txt", "r") as f:
         lines = f.readlines()
     lines = [l.strip("\n").strip("\r") for l in lines]
     paths = [[tuple(int(i) for i in p.split(",")) for p in l.split("->")] for l in lines]
