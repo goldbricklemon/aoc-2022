@@ -50,12 +50,14 @@ def merge_all_ranges(ranges):
 
 
 if __name__ == '__main__':
-    with open("input.txt", "r") as f:
+    input_file = "input.txt"
+    row = 10 if "test" in input_file else 2000000
+    with open(input_file, "r") as f:
         lines = f.readlines()
     lines = [l.strip("\n").strip("\r") for l in lines]
     sensors = [Sensor(*digit_re.findall(l)) for l in lines]
     print("#### Star one ####")
-    all_ranges = [r for r in map(lambda s: s.coverage_range_at_row(10), sensors) if r is not None]
+    all_ranges = [r for r in map(lambda s: s.coverage_range_at_row(row), sensors) if r is not None]
     merged = merge_all_ranges(all_ranges)
     covered = sum([r[1] - r[0] + 1 for r in merged])
     print(f"Covered: {covered}")

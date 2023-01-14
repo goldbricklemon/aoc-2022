@@ -13,8 +13,10 @@ class Board:
         max_w, max_h = min_width + 1, 1
         for path in rock_paths:
             for point in path:
-                max_h = max(max_h, point[1] + 1)
-                max_w = max(max_w, point[0] + 1)
+                max_h = max(max_h, point[1] + 3)
+                max_w = max(max_w, point[0] + 2)
+
+        max_w = max_w + max_h
 
         self.board = np.ones((max_h, max_w), dtype=np.uint8) * AIR
         for path in rock_paths:
@@ -26,7 +28,7 @@ class Board:
         self.abyss_y = self.board.shape[0]
         self.source = np.array(source)
 
-    def run_sand(self):
+    def run_sand_to_abyss(self):
         abyss_reached = False
         sand_loc = np.copy(self.source)
         while not abyss_reached:
@@ -46,14 +48,33 @@ class Board:
     def num_sand(self):
         return np.sum(np.equal(self.board, SAND))
 
+    def run_sand_to_solid_floor(self):
+        self.board[self.abyss_y - 1, :] = ROCK
+        source_reached = False
+        sand_loc = np.copy(self.source)
+        while not source_reached:
+            for mov_vec in self._mov_vecs:
+                new_pos = sand_loc + mov_vec
+                if self.board[tuple(new_pos)] == AIR:
+                    sand_loc = new_pos
+                    break
+            else:
+                self.board[tuple(sand_loc)] = SAND
+                if np.all(np.equal(sand_loc, self.source)):
+                    source_reached = True
+                sand_loc = np.copy(self.source)
+
 
 if __name__ == '__main__':
     with open("input.txt", "r") as f:
         lines = f.readlines()
     lines = [l.strip("\n").strip("\r") for l in lines]
     paths = [[tuple(int(i) for i in p.split(",")) for p in l.split("->")] for l in lines]
-    board = Board(rock_paths=paths)
-    board.run_sand()
     print("#### Star one ####")
+    board = Board(rock_paths=paths)
+    board.run_sand_to_abyss()
     print(f"NUM SAND: {board.num_sand()}")
     print("#### Star two ####")
+    board = Board(rock_paths=paths)
+    board.run_sand_to_solid_floor()
+    print(f"NUM SAND: {board.num_sand()}")
